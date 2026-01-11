@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>クリックゲーム</title>
+<style>
+body { text-align: center; font-family: sans-serif; }
+button { font-size: 2em; padding: 20px; }
+</style>
+</head>
+<body>
+<h1>クリックでスコアアップ！</h1>
+<button id="clickBtn">クリック！</button>
+<p>スコア: <span id="score">0</span></p>
+
+<script>
+let score = 0;
+const btn = document.getElementById("clickBtn");
+const scoreDisplay = document.getElementById("score");
+
+btn.addEventListener("click", () => {
+score++;
+scoreDisplay.textContent = score;
+});
+</script>
+</body>
+</html>
