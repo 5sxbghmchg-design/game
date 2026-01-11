@@ -1,26 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>クリックゲーム</title>
+<title>風船つぶしゲーム</title>
 <style>
-body { text-align: center; font-family: sans-serif; }
-button { font-size: 2em; padding: 20px; }
+body {
+margin: 0;
+overflow: hidden;
+background: #87CEEB; /* 空色 */
+font-family: sans-serif;
+text-align: center;
+}
+#scoreBoard {
+position: absolute;
+top: 10px;
+left: 10px;
+font-size: 24px;
+color: white;
+text-shadow: 1px 1px 2px black;
+}
+.balloon {
+position: absolute;
+width: 50px;
+height: 70px;
+background: red;
+border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+cursor: pointer;
+}
 </style>
 </head>
 <body>
-<h1>クリックでスコアアップ！</h1>
-<button id="clickBtn">クリック！</button>
-<p>スコア: <span id="score">0</span></p>
+<div id="scoreBoard">スコア: 0</div>
 
 <script>
 let score = 0;
-const btn = document.getElementById("clickBtn");
-const scoreDisplay = document.getElementById("score");
+const scoreBoard = document.getElementById("scoreBoard");
+const colors = ["red","blue","yellow","green","pink","orange"];
 
-btn.addEventListener("click", () => {
+function createBalloon() {
+const balloon = document.createElement("div");
+balloon.classList.add("balloon");
+balloon.style.background = colors[Math.floor(Math.random()*colors.length)];
+balloon.style.left = Math.random() * (window.innerWidth - 50) + "px";
+balloon.style.bottom = "-100px";
+document.body.appendChild(balloon);
+
+let speed = 1 + Math.random() * 3;
+
+function move() {
+let bottom = parseFloat(balloon.style.bottom);
+bottom += speed;
+balloon.style.bottom = bottom + "px";
+
+if (bottom > window.innerHeight) {
+balloon.remove();
+} else {
+requestAnimationFrame(move);
+}
+}
+
+balloon.addEventListener("click", () => {
 score++;
-scoreDisplay.textContent = score;
+scoreBoard.textContent = "スコア: " + score;
+balloon.remove();
 });
+
+move();
+}
+
+// 1秒ごとに新しい風船を生成
+setInterval(createBalloon, 1000);
 </script>
 </body>
 </html>
+
